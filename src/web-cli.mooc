@@ -172,5 +172,5 @@ fn input:onkeydown(e) {
 
 _G.print(_G._COPYRIGHT)
 _G.print(Core.version())
-_G.print("export *")
-moocLoadString("export * -- default global variable")
+_G.print("export * -- default global variable")
+moocLoadString("export *")
