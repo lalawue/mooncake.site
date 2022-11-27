@@ -116,67 +116,14 @@
 
     <h2>Examples</h2>
 
-    <!-- alert -->
-    <span class="h6 left ml1" style="color:gray">example 1: window.alert() moocscript version</span>
-    <span class="h6 right mr2" style="color:gray">moocscript</span>
-    <textarea id="exp_alert" class="code" type="text" placeholder="" title="alert" rows="4" spellcheck="false">
-import Core from "moocscript.core"
-import Window from "js" { global }
+    <p>Try some langauage <a href="https://github.com/lalawue/mooncake#highlight" target="mooc_github">highlight</a>?
 
-Window:alert("Hello from \(Core.version())")</textarea>
-    <div class="inline" style="width: 100%">
-        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_alert')">try it &nbsp;▶</button>
-        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_alert')">source &nbsp;◱</button>
-    </div>
+    <p>You can change these examples's content, all running in your browser !</p>
 
-    <br><br><br>
-
-    <!-- title -->
-    <span class="h6 left ml1" style="color:gray">example 2: change html tag innerHTML with document.title</span>
-    <span class="h6 right mr2" style="color: gray">moocscript</span>
-    <textarea id="exp_title" class="code" placeholder="" title="title" rows="3" spellcheck="false">
-import Window from "js" { global }
-
-print("Document's title: \(Window.document.title)")</textarea>
-    <div class="inline" style="width: 100%">
-        <div id="exp_title_out" class="left h6"></div>
-        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_title')">try it &nbsp;▶</button>
-        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_title')">source &nbsp;◱</button>
-    </div>
-
-    <br><br><br>
-
-    <!-- coroutine -->
-    <span class="h6 left ml1" style="color:gray">example 3: coroutine</span>
-    <span class="h6 right mr2" style="color: gray">moocscript</span>
-    <textarea id="exp_coroutine" class="code" placeholder="" title="coroutine" rows="17" spellcheck="false">
-import Window from "js" { global }
-
-fn sleep(delay) {
-    co = assert(coroutine.running(), "Should be run in a coroutine")
-
-    Window:setTimeout({ in
-        assert(coroutine.resume(co))
-    }, delay*1000)
-
-    coroutine.yield()
-}
-
-coroutine.wrap({ in
-    print("Going to sleep now...")
-    sleep(3)
-    print("Sleep well?")
-})()</textarea>
-    <div class="inline" style="width: 100%">
-        <div id="exp_coroutine_out" class="left h6"></div>
-        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_coroutine')">try it &nbsp;▶</button>
-        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_coroutine')">source &nbsp;◱</button>
-    </div>
-
-    <br><br><br>
+    <br>
 
     <!-- guard / continue / switch  -->
-    <span class="h6 left ml1" style="color:gray">example 3: guard / continue / switch</span>
+    <span class="h6 left ml1" style="color:gray">example 1: guard / continue / switch</span>
     <span class="h6 right mr2" style="color: gray">moocscript</span>
     <textarea id="exp_guard" class="code" placeholder="" title="coroutine" rows="14" spellcheck="false">
 out_str = ""
@@ -202,7 +149,7 @@ print(out_str)</textarea>
     <br><br><br>
 
     <!-- defer  -->
-    <span class="h6 left ml1" style="color:gray">example 4: defer</span>
+    <span class="h6 left ml1" style="color:gray">example 2: defer</span>
     <span class="h6 right mr2" style="color: gray">moocscript</span>
     <textarea id="exp_defer" class="code" placeholder="" title="coroutine" rows="15" spellcheck="false">
 tbl = {}
@@ -229,7 +176,7 @@ print(table.concat(tbl, '; '))</textarea>
     <br><br><br>
 
     <!-- class -->
-    <span class="h6 left ml1" style="color:gray">example 5: class/struct/extension</span>
+    <span class="h6 left ml1" style="color:gray">example 3: class/struct/extension</span>
     <span class="h6 right mr2" style="color: gray">moocscript</span>
     <textarea id="exp_class" class="code" placeholder="" title="class" rows="43" spellcheck="false">
 class Animal {
@@ -283,9 +230,69 @@ print("\(b.foot), \(b.wing), \(b.tune), \(b.feather) <> " ..
 
     <br><br><br>
 
-    <p>you can change these examples content, all running in your browser !</p>
+    <p>Here comes Fengari's examples, but in moocscript language, renders any interaction with JavaScript and the DOM transparent:</p>
 
     <br>
+
+    <!-- alert -->
+    <span class="h6 left ml1" style="color:gray">example 4: window.alert() moocscript version</span>
+    <span class="h6 right mr2" style="color:gray">moocscript</span>
+    <textarea id="exp_alert" class="code" type="text" placeholder="" title="alert" rows="4" spellcheck="false">
+import Core from "moocscript.core"
+import Window from "js" { global }
+
+Window:alert("Hello from \(Core.version())")</textarea>
+    <div class="inline" style="width: 100%">
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_alert')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_alert')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- title -->
+    <span class="h6 left ml1" style="color:gray">example 5: change html tag innerHTML with document.title</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_title" class="code" placeholder="" title="title" rows="3" spellcheck="false">
+import Window from "js" { global }
+
+print("Document's title: \(Window.document.title)")</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_title_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_title')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_title')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- coroutine -->
+    <span class="h6 left ml1" style="color:gray">example 5: coroutine</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_coroutine" class="code" placeholder="" title="coroutine" rows="17" spellcheck="false">
+import Window from "js" { global }
+
+fn sleep(delay) {
+    co = assert(coroutine.running(), "Should be run in a coroutine")
+
+    Window:setTimeout({ in
+        assert(coroutine.resume(co))
+    }, delay*1000)
+
+    coroutine.yield()
+}
+
+coroutine.wrap({ in
+    print("Going to sleep now...")
+    sleep(3)
+    print("Sleep well?")
+})()</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_coroutine_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_coroutine')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_coroutine')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
 
     <!-- REPL -->
     <h2>Try with REPL!</h2>
