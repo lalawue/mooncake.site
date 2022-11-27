@@ -40,12 +40,12 @@
             }
             ast, amsg = Core.toAST({ fname = tag_name }, ele.value)
             guard ast else {
-                print(amsg)
+                Window:alert('Failed to parse AST: "\(amsg)"')
                 return
             }
             code, cmsg = Core.toLua({ fname = tag_name }, ast)
             guard code else {
-                print(cmsg)
+                Window:alert('Failed to compile to Lua: "\(cmsg)"')
                 return
             }
             do {
