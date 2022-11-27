@@ -6,13 +6,12 @@
 }
 
 html {
-    height: 100%;
+    background-color: white;
 }
 
 body {
     color: black;
     font: 14px/1.5 "Luxi Serif", Verdana, helvetica, sans-serif;
-    height: 100%;
 }
 
 p {
@@ -207,12 +206,4 @@ pre {
 #moocscript-prompt {
     font-weight: bold;
     padding: 8px 10px;
-}
-
-@media screen and (max-width : 800px) {
-
-    .repl {
-        width: 100%;
-    }
-
 }

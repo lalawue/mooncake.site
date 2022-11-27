@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="js/fengari-web-20221126.js"></script>
     <script src="js/moocscript-web-20221126.js"></script>
+    <style id="site_theme"></style>
     <script type="application/mooc">
         import Core from "moocscript.core"
         import Window from "js" { global }
@@ -92,6 +93,7 @@
 </head>
 <body>
     <div id="content">
+    <span id="theme_name" class="right mt1" style="margin-right: -1em; font-size: 17px;" onclick="changeTheme()">☀</span>
 
     <img id="top" class="block mx-auto" src="images/mooncake.png" alt="mooncake">
     <h1>MoonCake Script</h1>
@@ -359,5 +361,34 @@ $ curl -L -O http://moonscript.fun/js/moocscript-web-20221126.js</code></pre>
 
     </div> <!-- #content -->
     <script src="src/web-cli.mooc" type="application/mooc"></script>
+    <script>
+        function getCookie(name) {
+            var cookieArr = document.cookie.split(";");
+            for (var i=0; i<cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split("=");
+                if (name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return undefined;
+        }
+        var site_theme = getCookie("site_theme");
+        function changeTheme(key) {
+            if (key == "@@@") {
+                site_theme = site_theme == undefined ? 'light' : site_theme;
+            } else {
+                site_theme = site_theme == 'dark' ? 'light' : 'dark';
+            }
+            document.cookie = "site_theme=" + site_theme + "; path=/; max-age=2147483647;"
+            if (site_theme == 'dark') {
+                document.getElementById('site_theme').innerHTML =
+                    `html { filter: invert(1) hue-rotate(180deg); } .code-toolbar { filter: invert(1) hue-rotate(0deg); }`;
+            } else {
+                document.getElementById('site_theme').innerHTML =
+                    `html { filter: unset; } .code-toolbar { filter: unset; }`;
+            }
+        }
+        changeTheme('@@@');
+    </script>
 </body>
 </html>
