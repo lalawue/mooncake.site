@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en-ww">
+<head>
+    <meta charset="UTF-8">
+    <title>MoonCake Script</title>
+    <meta name="author" content="lalawue">
+    <meta name="keywords" content="lalawue, MoonCake Script, moocscript, Lua">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/basscss.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <script src="/js/fengari-web-20221126.js"></script>
+    <script src="/js/moocscript-web-20221126.js"></script>
+    <script type="application/mooc">
+        import Core from "moocscript.core"
+        import Window from "js" { global }
+        Window.moocLoadTextArea = { _, tag_name in
+            document = Window.document
+            ele = document:getElementById(tag_name)
+            guard ele else {
+                Window:alert('Failed to document:getElementById("\(tag_name)") !')
+                return
+            }
+            f, emsg = Core.loadstring(ele.value)
+            if emsg {
+                Window:alert('Failed to loadstring: "\(emsg)"')
+            } else {
+                _ENV.print = { str in
+                    document:getElementById(tag_name .. "_out").innerHTML = "<b>stdout:</b> " .. str
+                }
+                return f()
+            }
+        }
+        Window.moocSourceTextArea = { _, tag_name in
+            document = Window.document
+            ele = document:getElementById(tag_name)
+            guard ele else {
+                Window:alert('Failed to document:getElementById("\(tag_name)") !')
+                return
+            }
+            ast, amsg = Core.toAST({ fname = tag_name }, ele.value)
+            guard ast else {
+                print(amsg)
+                return
+            }
+            code, cmsg = Core.toLua({ fname = tag_name }, ast)
+            guard code else {
+                print(cmsg)
+                return
+            }
+            do {
+                ele_code = document:getElementById("source_code")
+                ele_code.innerHTML = code
+
+                ele_model = document:getElementById("source_modal")
+                ele_model.style.visibility = 'visible';
+                ele_model.style.opacity = '1';
+
+                ele_backdrop = document:getElementById("source_backdrop")
+                ele_backdrop.style.opacity = '1'
+                ele_backdrop.style.visibility = 'visible'
+
+                top = document.documentElement.scrollTop
+                height = document.body.clientHeight - 300
+                if top {
+                    ele_model.style.top = tostring(top + 150) .. "px"
+                    ele_model.style["max-height"] = tostring(height) .. "px"
+                    ele_code.style["max-height"] = tostring(height) .. "px"
+                } else {
+                    ele_model.style.top = "30vh"
+                    ele_model.style["max-height"] = tostring(height) .. "px"
+                    ele_code.style["max-height"] = tostring(height) .. "px"
+                }
+                --print(tostring(height * 0.5))
+            }
+            --print(code)
+        }
+        Window.moocCloseSourceModel = { _ in
+            document = Window.document
+
+            ele_model = document:getElementById("source_modal")
+            ele_model.style.visibility = 'hidden';
+            ele_model.style.opacity = '0';
+
+            ele_backdrop = document:getElementById("source_backdrop")
+            ele_backdrop.style.visibility = 'hidden'
+            ele_backdrop.style.opacity = '0'
+
+            ele_code = document:getElementById("source_code")
+            ele_code.innerHTML = ""
+        }
+    </script>
+</head>
+<body>
+    <div id="content">
+
+    <img id="top" class="block mx-auto" src="/images/mooncake.png" alt="mooncake">
+    <h1>MoonCake Script</h1>
+    <p class="h6 center italic">A Swift like programming language that compiles to Lua</p>
+    <div class="center">
+        <a href="https://github.com/lalawue/mooncake" target="mooc_github"><img class="icon" src="/images/github-icon.svg" alt="Github" width="32"></a>
+        &nbsp;
+        <a href="https://gitee.com/lalawue/mooncake" target="mooc_gitee"><img class="icon" src="/images/gitee-icon.png" alt="Gitee" width="32"></a>
+    </div>
+
+    <br>
+
+    <h2>About</h2>
+
+    <p><b>MoonCake Script</b>, short in <b>moocscript</b>, is a swift like program language that compiles into Lua. For it's a pure Lua transpiler solution, so it support any environment that Lua support.</p>
+
+    <p>If you are using Lua from command line, please visit <a href="https://github.com/lalawue/mooncake" target="mooc_github">lalawue/mooncake</a> for more information.</p>
+
+    <p>Here eaxmples live in browser, depends on <a href="https://fengari.io/">Fengari</a>, a Lua VM written in JavaScript. Other Lua VM requires some modification to the loader.</p>
+
+    <br>
+
+    <h2>Examples</h2>
+
+    <!-- alert -->
+    <span class="h6 left ml1" style="color:gray">example 1: window.alert() moocscript version</span>
+    <span class="h6 right mr2" style="color:gray">moocscript</span>
+    <textarea id="exp_alert" class="code" type="text" placeholder="" title="alert" rows="4" spellcheck="false">
+import Core from "moocscript.core"
+import Window from "js" { global }
+
+Window:alert("Hello from \(Core.version())")</textarea>
+    <div class="inline" style="width: 100%">
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_alert')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_alert')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- title -->
+    <span class="h6 left ml1" style="color:gray">example 2: change html tag innerHTML with document.title</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_title" class="code" placeholder="" title="title" rows="3" spellcheck="false">
+import Window from "js" { global }
+
+print("Document's title: \(Window.document.title)")</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_title_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_title')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_title')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- coroutine -->
+    <span class="h6 left ml1" style="color:gray">example 3: coroutine</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_coroutine" class="code" placeholder="" title="coroutine" rows="17" spellcheck="false">
+import Window from "js" { global }
+
+fn sleep(delay) {
+    co = assert(coroutine.running(), "Should be run in a coroutine")
+
+    Window:setTimeout({ in
+        assert(coroutine.resume(co))
+    }, delay*1000)
+
+    coroutine.yield()
+}
+
+coroutine.wrap({ in
+    print("Going to sleep now...")
+    sleep(3)
+    print("Sleep well?")
+})()</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_coroutine_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_coroutine')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_coroutine')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- guard / continue / switch  -->
+    <span class="h6 left ml1" style="color:gray">example 3: guard / continue / switch</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_guard" class="code" placeholder="" title="coroutine" rows="14" spellcheck="false">
+out_str = ""
+for i, v in ipairs({'A', 'B', 'C'}) {
+    guard i > 1 else {
+        continue
+    }
+    switch v {
+        case 'B':
+            out_str ..= 'case ' .. v
+        default:
+            out_str ..= 'default ' .. v
+    }
+    out_str ..= "; "
+}
+print(out_str)</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_guard_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_guard')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_guard')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- defer  -->
+    <span class="h6 left ml1" style="color:gray">example 4: defer</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_defer" class="code" placeholder="" title="coroutine" rows="15" spellcheck="false">
+tbl = {}
+fn printOut(str) {
+    tbl[#tbl + 1] = str
+}
+do {
+    fn aboutDeferKeyword() {
+        defer {
+            printOut("defer block")
+        }
+        printOut("fn block")
+        return "return value"
+    }
+    printOut(aboutDeferKeyword())
+}
+print(table.concat(tbl, '; '))</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_defer_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_defer')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_defer')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <!-- class -->
+    <span class="h6 left ml1" style="color:gray">example 5: class/struct/extension</span>
+    <span class="h6 right mr2" style="color: gray">moocscript</span>
+    <textarea id="exp_class" class="code" placeholder="" title="class" rows="43" spellcheck="false">
+class Animal {
+
+    foot = 2
+
+    fn init() {
+    }
+
+    fn canFly() {
+        return self.wing > 0
+    }
+}
+
+class Bird : Animal {
+
+    wing = 0
+
+    fn init(wing) {
+        self.foot = 2
+        self.wing = wing or 2
+    }
+}
+
+struct Songster {
+
+    tune = 'do'
+
+    fn canSing() {
+        return true
+    }
+}
+
+extension Bird: Songster {
+
+    feather = true
+
+    fn canRun() {
+        return self.foot >= 4
+    }
+}
+
+b = Bird()
+print("\(b.foot), \(b.wing), \(b.tune), \(b.feather) <> " ..
+      "\(b:canFly()), \(b:canSing()), \(b:canRun())")</textarea>
+    <div class="inline" style="width: 100%">
+        <div id="exp_class_out" class="left h6"></div>
+        <button class="action right mr2" type="button" onclick="moocLoadTextArea('exp_class')">try it &nbsp;▶</button>
+        <button class="action right mr2" type="button" onclick="moocSourceTextArea('exp_class')">source &nbsp;◱</button>
+    </div>
+
+    <br><br><br>
+
+    <p>you can change these examples content, all running in your browser !</p>
+
+    <br>
+
+    <!-- REPL -->
+    <h2>Try with REPL!</h2>
+
+    <div class="repl">
+        <code id="moocscript-console"></code>
+        <div class="moocscript-input-container">
+            <label id="moocscript-prompt" for="fengari-input">→ </label>
+            <textarea class="mooc" id="moocscript-input" rows="6" placeholder="Type some moocscript here, and Shift + Enter to newline" spellcheck="false"></textarea>
+        </div>
+    </div>
+
+    <p>This REPL is stolen from Fengari's <a href="https://github.com/fengari-lua/fengari.io/blob/master/static/lua/web-cli.lua">web-cli.lua</a>, then modified to moocscript's <a href="/src/web-cli.mooc">web-cli.mooc</a>.</p>
+
+
+    <br><br>
+
+    <h2>Getting started</h2>
+
+    <p>1. first download <b>fengari</b> and <b>moocscript-web</b>:</p>
+
+    <span class="h6 right mr2" style="color: gray">bash</span>
+    <pre class="exp"><code>$ curl -L -O https://github.com/fengari-lua/fengari-web/releases/download/v0.1.4/fengari-web.js
+$ curl -L -O http://moonscript.fun/js/moocscript-web-20221126.js</code></pre>
+
+    <br>
+
+    <p>2. then you can include in you webpage</p>
+
+    <span class="h6 right mr2" style="color: gray">javascript</span>
+    <pre class="exp"><code>&lt;script src=&quot;fengari-web.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;moocscript-web.js&quot;&gt;&lt;/script&gt;</code></pre>
+
+    <br>
+
+    <p>3. now any script of type &quot;application/mooc&quot; will be running by <a href="/js/moocscript-web-20221126.js">moocscript-web.js</a></p>
+
+    <span class="h6 right mr2" style="color: gray">javascript</span>
+    <pre class="exp"><code>&lt;script src=&quot;/mooc/hello.mooc&quot; type=&quot;application/mooc&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;application/mooc&quot;&gt;
+    import Core from &quot;moocscript.core&quot;
+    import Window from &quot;js&quot; { global }
+    Window:alert(&quot;moocscript version is \(Core.version())&quot;)
+&lt;/script&gt;</code></pre>
+
+    <br><br>
+
+    <h2>Documents</h2>
+
+    <ul class="ml2">
+    <li>GitHub: <a href="https://github.com/lalawue/mooncake#documentation" target="mooc_github">lalawue/mooncake#documentation</a></li>
+    <li>Gitee: <a href="https://gitee.com/lalawue/mooncake#documentation" target="mooc_gitee">lalawue/mooncake#documentation</a></li>
+    </ul>
+
+    <br><br><br>
+
+    <div id="source_modal" class="flex">
+        <span class="h6 right mr2" style="color: white">Compiled Lua</span>
+        <pre id="source_code" class="exp"><code></code></pre>
+        <button id="source_close" class="action right mr2" type="button" onclick="moocCloseSourceModel()">close</button>
+    </div>
+    <div id="source_backdrop"></div>
+
+    </div> <!-- #content -->
+    <script src="/src/web-cli.mooc" type="application/mooc"></script>
+</body>
+</html>
