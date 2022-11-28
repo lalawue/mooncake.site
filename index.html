@@ -61,7 +61,7 @@
                 ele_backdrop.style.visibility = 'visible'
 
                 top = document.documentElement.scrollTop
-                height = document.body.clientHeight - 300
+                height = Window.innerHeight - 400
                 if top {
                     ele_model.style.top = tostring(top + 150) .. "px"
                     ele_model.style["max-height"] = tostring(height) .. "px"
@@ -307,7 +307,7 @@ coroutine.wrap({ in
         </div>
     </div>
 
-    <p>This REPL is stolen from Fengari's <a href="https://github.com/fengari-lua/fengari.io/blob/master/static/lua/web-cli.lua">web-cli.lua</a>, then modified to moocscript's <a href="/src/web-cli.mooc">web-cli.mooc</a>.</p>
+    <p>This REPL is stolen from Fengari's <a href="https://github.com/fengari-lua/fengari.io/blob/master/static/lua/web-cli.lua">web-cli.lua</a>, then modified to moocscript's <a href="https://github.com/lalawue/mooncake.site/blob/master/src/web-cli.mooc">web-cli.mooc</a>.</p>
 
 
     <br><br>
@@ -382,10 +382,12 @@ $ curl -L -O http://moonscript.fun/js/moocscript-web-20221126.js</code></pre>
             document.cookie = "site_theme=" + site_theme + "; path=/; max-age=2147483647;"
             if (site_theme == 'dark') {
                 document.getElementById('site_theme').innerHTML =
-                    `html { filter: invert(1) hue-rotate(180deg); } .code-toolbar { filter: invert(1) hue-rotate(0deg); }`;
+            `html { filter: invert(1) hue-rotate(180deg); } .code-toolbar { filter: invert(1) hue-rotate(0deg); }`;
+                document.getElementById('source_backdrop').style = 'background: rgba(247, 248, 248, 0.6);';
             } else {
                 document.getElementById('site_theme').innerHTML =
                     `html { filter: unset; } .code-toolbar { filter: unset; }`;
+                document.getElementById('source_backdrop').style = 'background: rgba(8, 7, 7, 0.6);';
             }
         }
         changeTheme('@@@');

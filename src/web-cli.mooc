@@ -71,6 +71,7 @@ fn doREPL() {
         line:appendChild(document:createTextNode(prompt.textContent))
         --
         item = document:createElement("pre")
+        item:setAttribute('class', 'line')
         item.className = "lua"
         item.style.padding = "0"
         item.style.display = "inline"

@@ -53,7 +53,8 @@ p {
         padding-bottom: .5em;
         border: 1px solid gray;
         border-radius: 8px;
-        /* background-color: #efefef; */
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
     }
 }
 
@@ -85,6 +86,8 @@ a:hover {
 pre.exp {
     padding: 7px 10px 10px 10px;
     border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
     background-color: #efefef;
     border-style: solid;
     border-width: 1px;
@@ -96,6 +99,8 @@ pre.exp {
 textarea.code {
     padding: 7px 10px 10px 10px;
     border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
     border-width: 1px;
     width: 95%;
     background-color: #efefef;
@@ -109,6 +114,8 @@ button.action {
     margin-top: .3em;
     background-color: #efefef;
     border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
     border-width: 1px;
 }
 
@@ -128,6 +135,8 @@ button.action {
     align-items: flex-end;
     z-index: 9001;
     border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
     flex-wrap: wrap;
 }
 
@@ -162,16 +171,21 @@ button.action {
     margin-top: 50px;
     margin-bottom: 50px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border: 1px solid;
     background-color: #efefef;
 }
 
 .repl code {
     height: 300px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
     overflow-y: scroll;
 }
 
-pre {
+pre.line {
     margin: 0;
 }
 
@@ -182,6 +196,7 @@ pre {
 
 .moocscript-input-container {
     display: flex;
+    border-top: 1px solid darkgray;
 }
 
 .moocscript-input-container > * {
@@ -195,6 +210,8 @@ pre {
     padding: 10px;
     margin: 0;
     border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    -moz-border-radius: 0 0 3px 3px;
     border-top: 1px solid #ddd;
 }
 
