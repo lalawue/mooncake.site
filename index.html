@@ -127,19 +127,20 @@
     <!-- guard / continue / switch  -->
     <span class="h6 left ml1" style="color:gray">example 1: guard / continue / switch</span>
     <span class="h6 right mr2" style="color: gray">moocscript</span>
-    <textarea id="exp_guard" class="code" placeholder="" title="coroutine" rows="14" spellcheck="false">
+    <textarea id="exp_guard" class="code" placeholder="" title="coroutine" rows="15" spellcheck="false">
 out_str = ""
-for i, v in ipairs({'A', 'B', 'C'}) {
+for i, v in ipairs({'A', 'B', 'C', 'D', 'E'}) {
     guard i > 1 else {
         continue
     }
     switch v {
-        case 'B':
-            out_str ..= 'case ' .. v
+        case 'B', 'D':
+            out_str ..= 'case \(v); '
+        case 'C':
+            break
         default:
-            out_str ..= 'default ' .. v
+            out_str ..= 'default \(v); '
     }
-    out_str ..= "; "
 }
 print(out_str)</textarea>
     <div class="inline" style="width: 100%">
