@@ -27,7 +27,7 @@ history = {}
 historyIndex = nil
 historyLimit = 128
 
-_G.print = fn(...) {
+_G._print = fn(...) {
     toprint = pack(...)
 
     line = document:createElement("pre")
@@ -96,22 +96,23 @@ fn doREPL() {
         }
     }
 
-    local fc, err = moocLoadString("return " .. line)
+    fc, err = moocLoadString("return " .. line)
     if not fc {
         fc, err = moocLoadString(line)
     }
 
     if fc {
+        _ENV.print = _G._print
         results = pack(xpcall(fc, traceback))
         if results[1] {
             if results.n > 1 {
-                _G.print(unpack(results, 2, results.n))
+                _G._print(unpack(results, 2, results.n))
             }
         } else  {
-            _G.print(results[2])
+            _G._print(results[2])
         }
     } else {
-        _G.print(err)
+        _G._print(err)
     }
 
     input.value = ""
@@ -163,15 +164,15 @@ fn input:onkeydown(e) {
         and not e.isComposing {
         -- Ctrl+L clears screen like you would expect in a terminal
         output.innerHTML = ""
-        _G.print(_G._COPYRIGHT)
-        _G.print(Core.version())
-        _G.print("export * -- default global variable")
+        _G._print(_G._COPYRIGHT)
+        _G._print(Core.version())
+        _G._print("export * -- default global variable")
         return false
     } else {
     }
 }
 
-_G.print(_G._COPYRIGHT)
-_G.print(Core.version())
-_G.print("export * -- default global variable")
+_G._print(_G._COPYRIGHT)
+_G._print(Core.version())
+_G._print("export * -- default global variable")
 moocLoadString("export *")
