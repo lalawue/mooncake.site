@@ -10,7 +10,7 @@ function moocscript_web_install_lib() {
 	function heredoc(f) {
 		return f.toString().split('\n').slice(1, -1).join('\n') + '\n'
 	}
-	const tmpl_str = heredoc(function(){/*-- auto generated standalone moocscript parser & compiler & core library
+	const tmpl_str = heredoc(function(){/*-- auto generated standalone library combined with 'utils', 'parser', 'compiler', 'core', 'class' for moocscript v0.8.20221204
 local MoocLib = {  }
 do
 	js = js or nil
@@ -88,22 +88,6 @@ do
 				s[v] = true
 			end
 			return s
-		end
-		__ct.blank_set = Utils.set({ " ", "\t", "\n", "\r" })
-		function __ct.trim(self)
-			local i = 1
-			local j = self:len()
-			local blank_set = Utils.blank_set
-			while i <= j do
-				if blank_set[self:sub(i, i)] then
-					i = i + 1
-				elseif blank_set[self:sub(j, j)] then
-					j = j - 1
-				else 
-					return self:sub(i, j)
-				end
-			end
-			return self
 		end
 		function __ct.seqReduce(tbl, init, func)
 			for i, v in ipairs(tbl) do
@@ -191,13 +175,13 @@ do
 			__tostring = function() return "<class Utils>" end,
 			__index = function(t, k)
 				local v = __st and __st[k]
-				if v ~= nil then rawset(__ct, k, v) end
+				if v ~= nil then rawset(t, k, v) end
 				return v
 			end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -282,12 +266,12 @@ do
 		}
 		QuickStack = setmetatable({}, {
 			__tostring = function() return "<struct QuickStack>" end,
-			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v) end return v end,
+			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v); end return v end,
 			__newindex = function(t, k, v) if v ~= nil and rawget(__ct, k) ~= nil then rawset(t, k, v) end end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -345,12 +329,12 @@ do
 		}
 		GroupMap = setmetatable({}, {
 			__tostring = function() return "<struct GroupMap>" end,
-			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v) end return v end,
+			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v); end return v end,
 			__newindex = function(t, k, v) if v ~= nil and rawget(__ct, k) ~= nil then rawset(t, k, v) end end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -725,7 +709,7 @@ do
 					self._pos = self._pos + 1
 					self:oneComment()
 				else 
-					self._pos = self._pos -  (ch:len() > 0 and 1 or 0)
+					self._pos = self._pos - (ch:len() > 0 and 1 or 0)
 					break
 				end
 			end
@@ -764,12 +748,12 @@ do
 		}
 		Lexer = setmetatable({}, {
 			__tostring = function() return "<struct Lexer>" end,
-			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v) end return v end,
+			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v); end return v end,
 			__newindex = function(t, k, v) if v ~= nil and rawget(__ct, k) ~= nil then rawset(t, k, v) end end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -1740,12 +1724,12 @@ do
 		}
 		Parser = setmetatable({}, {
 			__tostring = function() return "<struct Parser>" end,
-			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v) end return v end,
+			__index = function(t, k) local v = rawget(__ct, k); if v ~= nil then rawset(t, k, v); end return v end,
 			__newindex = function(t, k, v) if v ~= nil and rawget(__ct, k) ~= nil then rawset(t, k, v) end end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -1827,13 +1811,13 @@ do
 			__tostring = function() return "<class Out>" end,
 			__index = function(t, k)
 				local v = __st and __st[k]
-				if v ~= nil then rawset(__ct, k, v) end
+				if v ~= nil then rawset(t, k, v) end
 				return v
 			end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -1926,13 +1910,13 @@ do
 			__tostring = function() return "<class Ctx>" end,
 			__index = function(t, k)
 				local v = __st and __st[k]
-				if v ~= nil then rawset(__ct, k, v) end
+				if v ~= nil then rawset(t, k, v) end
 				return v
 			end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -2926,13 +2910,13 @@ do
 			__tostring = function() return "<class M>" end,
 			__index = function(t, k)
 				local v = __st and __st[k]
-				if v ~= nil then rawset(__ct, k, v) end
+				if v ~= nil then rawset(t, k, v) end
 				return v
 			end,
 			__call = function(_, ...)
 				local t = {}; t.__ins_name = tostring(t):sub(6)
 				local ins = setmetatable(t, __imt)
-				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins,...) == false then return nil end
+				if type(rawget(__ct,'init')) == 'function' and __ct.init(ins, ...) == false then return nil end
 				return ins
 			end,
 		})
@@ -3078,8 +3062,10 @@ do
 		insert(loaders, 3, mcLoader)
 		package.mooc_loaded = mcLoader
 	end
+	local moocVersionShort = "0.8.20221204"
+	local moocVersionLong = "moocscript v" .. moocVersionShort .. ", " .. (jit and jit.version or _VERSION)
 	local function mcVersion()
-		return "moocscript v0.7.20221112, " .. (jit and jit.version or _VERSION)
+		return moocVersionLong
 	end
 	local function mcLoaded()
 		return package.mooc_loaded ~= nil
